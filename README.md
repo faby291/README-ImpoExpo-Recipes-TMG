@@ -161,7 +161,7 @@ una volta teminato il processo vi comparirà l'alert di successo con i suoi rela
 selezionare il check su `RESTORE` e premere il pulsante `START` <br>
 >Si aprirà la pagina di **RESTORE**
 <p align="center">
-    <img alt="restorePage" src="./renderer/images/HowTo/restore/restoreAllPage.png" />
+    <img alt="restorePage" src="./renderer/images/HowTo/restore/restorePage.png" />
 </p>
 
 premete il pulsante **Scegli file** e scegliete il file che volete `importare` (restore) 
