@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+    http-equiv="Content-Security-Policy"
+    content="script-src 'self' 'unsafe-inline'"
+  />
+  <!--link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap"
+    rel="stylesheet"
+  /> -->
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/renderer.js" defer></script>
+    <title>ImpoExpo Recipes TMG</title>
+  </head>
+  <body class="bg-orange-700">
+    <button
+      type="submit"
+      name="Home"
+      id="Home"
+      class=" hidden w-10 mt-10 ml-10 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2"
+      > <img src="./images/Home.svg" class="m-auto" width="27" />
+    </button>
+    <button
+      type="submit"
+      name="Back"
+      id="Back"
+      class=" hidden w-10 mt-10justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 "
+      > <img src="./images/Back.svg" class="m-auto" width="32" />
+    </button>
+    <div id="circle" class="inline bg-red-600 rounded-full w-3 mt-10 h-3 ml-10"></div> <!-- Pallino rosso -->
+    <div
+      class="max-w-xl m-auto h-screen flex flex-col align-center justify-center"
+    >
+     
+      <div class="flex flex-col w-full items-center justify-center bg-grey-lighter">
+        <label
+          class="w-100 flex flex-col items-center px-4 py-7 bg-white text-gray-500 rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:text-orange-800"
+        >
+          <img src="./images/TMG-ICO.svg" width="32" />
+          <span class="mt-2 leading-normal text-center">ImpoExpo Recipes</span>
+
+          <!-- Form per effettuare la connessione OPCUA -->
+          <form id="OPC-UA">
+            <p class="mt-2 leading-normal text-center nonecase">Enter the OPC-UA Credentials for access</p>
+            <br>
+            <input 
+              type="text" 
+              name="IP" 
+              id="IP" 
+              class="mt-1 block w-50 m-auto p-3 shadow-sm border-gray-300 rounded-md"
+              placeholder="opc.tcp://0.0.0.0:0000"
+              onkeypress="return event.keyCode != 13;"/><br>
+            <input 
+              type="text" 
+              name="user" 
+              id="user" 
+              class="mt-1 block w-50 m-auto p-3 shadow-sm border-gray-300 rounded-md"
+              placeholder="User"
+              onkeypress="return event.keyCode != 13;"/>
+            <input 
+              type="password" 
+              name="password" 
+              id="password" 
+              class="mt-1 block w-50 m-auto p-3 shadow-sm border-gray-300 rounded-md"
+              placeholder="Password"
+              onkeypress="return event.keyCode != 13;"/>
+            <!-- Button -->
+            <div class="mt-6">
+              <button
+                type="submit"
+                name="Connect"
+                id="Connect"
+                class="w-50 m-auto flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                onkeypress="return event.keyCode != 13;">
+                Connect
+              </button>
+            </div>
+          </form>
+
+          <!-- Form per selezionare le operazioni -->
+          <form id="form-operation" class="hidden">
+            <div class="mt-4">
+              <input
+                type="radio"
+                name="Action"
+                id="export"
+                class="mt-6 mb-5 block w-64 m-auto p-3 border-gray-300 rounded-md"
+                placeholder="export"
+                value="1"
+                onkeypress="return event.keyCode != 13;"
+              /><label for="export" class="block text-black text-center m-auto py-3 shadow-sm border-gray-300 rounded-md">Export</label>
+              <input
+                type="radio"
+                name="Action"
+                id="restoreAll"
+                class="mt-6 mb-5 block w-64 m-auto p-3 border-gray-300 rounded-md"
+                placeholder="restoreAll"
+                value="2"
+                onkeypress="return event.keyCode != 13;"
+              /><label for="restoreAll" class="block text-black text-center m-auto py-3 shadow-sm border-gray-300 rounded-md">restore All</label>
+              <input
+                type="radio"
+                name="Action"
+                id="restore"
+                class="mt-6 mb-5 block w-64 m-auto p-3 border-gray-300 rounded-md"
+                placeholder="restore"
+                value="3"
+                onkeypress="return event.keyCode != 13;"
+              /><label for="restore" class="block text-black text-center m-auto py-3 shadow-sm border-gray-300 rounded-md">Restore</label>
+            </div>
+            <!-- Button -->
+            <div class="mt-6">
+              <button
+                id="Start"
+                type="submit"
+                class="w-64 m-auto flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                onkeypress="return event.keyCode != 13;">
+                Start
+              </button>
+            </div>
+          </form>
+          
+
+          <!-- Form per Restore e RestoreAll -->
+          <form id="form-restore" class="hidden">
+            <div class="mt-4">
+              <label class="block text-black text-center m-auto py-3 shadow-sm border-gray-300 rounded-md">select .json file</label>
+              <input
+                type="file"
+                name="json"
+                id="json"
+                accept=".json, application/json"
+                class="mt-6 mb-5 block w-64 m-auto p-3 border-gray-300 rounded-md"
+                onkeypress="return event.keyCode != 13;"
+              />
+            </div>
+            <div id="Num" class="mt-4 hidden">
+              <label class="block text-black text-center m-auto py-3 shadow-sm border-gray-300 rounded-md">select number recipe to restore</label>
+              <input
+                type="number"
+                name="numRecipe"
+                id="numRecipe"
+                class="mt-1 block w-64 m-auto p-3 shadow-sm border-gray-300 rounded-md"
+                placeholder="es: 1.. or 2.. or 3"
+                onkeypress="return event.keyCode != 13;"
+              />
+            </div>
+
+            <!-- Button -->
+            <div class="mt-6">
+              <button type="submit"
+                class="w-64 m-auto flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                onkeypress="return event.keyCode != 13;">
+                Restore
+              </button>
+            </div>
+          </form>
+        </label>
+        <p id="OF" class="hidden text-black text-lg text-center font-mono mt-6"><strong>File: </strong><span id="filename"></span></p>
+        <p id="RN" class="hidden text-black text-lg text-center font-mono mt-6"><strong>Possible number Recipe:</strong><span id="recipenumber"></span></p>
+        <p id="Status" class="hidden text-black text-lg text-center font-mono mt-2"><strong>Status: </strong><span id="output-path"></span></p> 
+      </div>
+    </div>
+    <div id="disable-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.35); z-index: 1000;">
+    </div>
+  </body>
+</html>
